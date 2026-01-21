@@ -1,0 +1,4 @@
+id,firstName,lastName,email
+"CUST-001","João","Silva","joao.silva@email.com"
+"CUST-002","Maria","Santos","maria.santos@email.com"
+"CUST-003","Carlos","Oliveira","carlos.oliveira@email.com"
