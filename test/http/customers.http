@@ -1,5 +1,7 @@
 @localhost=localhost:4004/odata/v4/main
 
+@id=1139ae8a-e517-4aae-b86e-ece7ec5bec8a
+
 GET http://{{localhost}}/Customers
 Content-Type: application/json
 
