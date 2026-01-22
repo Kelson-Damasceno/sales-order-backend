@@ -1,0 +1,37 @@
+@localhost=localhost:4004/odata/v4/main
+
+GET http://{{localhost}}/Customers
+Content-Type: application/json
+
+### 
+
+POST http://{{localhost}}/Customers
+Content-Type: application/json
+ 
+{
+    "id": "b3278f9c-4575-451d-906f-67763641d6a0",
+    "firstName": "Kelsu",
+    "lastName": "Damasxeno",
+    "email": "kel.damasxeno@gmail.com"
+}
+ 
+
+###
+
+DELETE http://{{localhost}}/Customers
+Content-Type: application/json
+
+###
+
+PUT http://{{localhost}}/Customers
+Content-Type: application/json
+
+
+
+
+# entity Customers {
+#    key id: UUID;
+#       firstName: String(20);
+#       lastName: String(100);
+#       email: String(255);
+# }
