@@ -46,3 +46,18 @@ Content-Type: application/json
 
 PUT http://localhost:4004/odata/v4/main/SalesOrderHeaders(id={{id}})
 Content-Type: application/json
+
+###
+
+## Buscar pedidos maiores ou iguais a um x valor
+GET http://localhost:4004/odata/v4/main/SalesOrderHeaders?$filter=totalAmount ge 200
+Content-Type: application/json
+
+###
+
+## Buscar pedidos maiores ou iguais a um x valor
+GET http://localhost:4004/odata/v4/main/SalesOrderHeaders?$filter=totalAmount le 200
+Content-Type: application/json
+
+
+

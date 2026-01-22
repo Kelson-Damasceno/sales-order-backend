@@ -28,8 +28,11 @@ Content-Type: application/json
 PUT http://{{localhost}}/Customers
 Content-Type: application/json
 
+###
 
-
+###Buscar pedidos que não conteham -
+GET http://localhost:4004/odata/v4/main/Customers?$filter=not endswith(firstName,'-23')
+Content-Type: application/json
 
 # entity Customers {
 #    key id: UUID;
