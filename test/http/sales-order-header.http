@@ -6,32 +6,32 @@
 
 @productId=a2e1e82e-c2dc-4af8-a207-59601020e445
 
-GET http://localhost:4004/odata/v4/main/SalesOrderHeaders
+GET http://{{localhost}}/SalesOrderHeaders
 Content-Type: application/json
 
 ###
 
-POST http://localhost:4004/odata/v4/main/SalesOrderHeaders
+POST http://{{localhost}}/SalesOrderHeaders
 Content-Type: application/json
 
 {
     "id": "{{id}}",
     "customer_id": "{{customerId}}",
-    "totalAmount": 699,
+    "totalAmount": 68,
     "items": [
         {
-            "id": "9795763d-3228-474b-b553-23e38a8dfc95",
+            "id": "9795763d-3228-474b-b553-23e39a8dfc95",
             "header_id": "{{id}}",
             "product_id": "{{productId}}",
-            "quantity": 10,
+            "quantity": 34,
             "price": 3.99
         },
 
         {
-            "id": "bf66c933-656b-420b-a8c1-0a9b0a3b03d6",
+            "id": "bf66c933-656b-420b-a8c1-1a9b0a3b03d6",
             "header_id": "{{id}}",
             "product_id": "{{productId}}",
-            "quantity": 5,
+            "quantity": 15,
             "price": 3.00
         }
     ] 
@@ -39,25 +39,35 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:4004/odata/v4/main/SalesOrderHeaders(id={{id}})
+DELETE http://{{localhost}}/SalesOrderHeaders(id={{id}})
 Content-Type: application/json
 
 ###
 
-PUT http://localhost:4004/odata/v4/main/SalesOrderHeaders(id={{id}})
-Content-Type: application/json
-
-###
-
-## Buscar pedidos maiores ou iguais a um x valor
-GET http://localhost:4004/odata/v4/main/SalesOrderHeaders?$filter=totalAmount ge 200
+PUT http://{{localhost}}/SalesOrderHeaders(id={{id}})
 Content-Type: application/json
 
 ###
 
 ## Buscar pedidos maiores ou iguais a um x valor
-GET http://localhost:4004/odata/v4/main/SalesOrderHeaders?$filter=totalAmount le 200
+GET http://{{localhost}}/SalesOrderHeaders?$filter=totalAmount ge 200
 Content-Type: application/json
+
+###
+
+## Buscar pedidos maiores ou iguais a um x valor
+GET http://{{localhost}}/SalesOrderHeaders?$filter=totalAmount le 200
+Content-Type: application/json###
+
+###
+
+## Buscar pedidos maiores ou iguais a um x valor
+GET http://{{localhost}}/SalesOrderHeaders?$expand=items($expand=product;$filter=quantity le 50),customer
+Content-Type: application/json
+
+###
+
+GET http://{{localhost}}/SalesOrderHeaders?$select=customer&$expand=customer
 
 
 
