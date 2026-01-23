@@ -34,9 +34,7 @@ Content-Type: application/json
 GET http://localhost:4004/odata/v4/main/Customers?$filter=not endswith(firstName,'-23')
 Content-Type: application/json
 
-# entity Customers {
-#    key id: UUID;
-#       firstName: String(20);
-#       lastName: String(100);
-#       email: String(255);
-# }
+###
+
+###Buscando dados com orderBy
+GET http://{{localhost}}/Customers?$orderby=firstName desc, lastName asc

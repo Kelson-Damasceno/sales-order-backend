@@ -67,7 +67,26 @@ Content-Type: application/json
 
 ###
 
+#Selecionar somente o customer id e o email do sales order 
+
 GET http://{{localhost}}/SalesOrderHeaders?$select=customer&$expand=customer
+
+###
+
+#Descobrindo a qtd de registros
+
+GET http://{{localhost}}/SalesOrderHeaders/$count
+
+###
+
+#Paginando os registros 
+
+GET http://{{localhost}}/SalesOrderHeaders?$skip=3&$top=5
+
+###
+
+###Buscando dados com search
+GET http://{{localhost}}/SalesOrderHeaders?$search=7emk5
 
 
 
