@@ -1,5 +1,5 @@
 import cds, { Request, Service } from '@sap/cds';
-import { Customers, Products, SalesOrderItem, SalesOrderItems } from '@cds-models/sales';
+import { Customers, Product, Products, SalesOrderHeaders, SalesOrderItem, SalesOrderItems } from '@cds-models/sales';
 
 
 export default (service: Service) => {
@@ -12,7 +12,7 @@ export default (service: Service) => {
     });
     service.before('CREATE', 'SalesOrderHeaders', async (request: Request) => {
         const params = request.data;
-        const items: SalesOrderItems = params.items;
+        const items: SalesOrderItem [] = params.items;
         if (!params.customer_id){
             return request.reject(400, 'Customer inavalido');
         }
@@ -43,4 +43,24 @@ export default (service: Service) => {
         
 
     });
+
+    service.after('CREATE', 'SalesOrderHeaders', async (results: SalesOrderHeaders) => {
+        const headersAsArray = Array.isArray(results) ? results : [results] as SalesOrderHeaders;
+        for (const header of headersAsArray){
+            const items = header.items as SalesOrderItems;
+            const productsData = items.map(item => ({
+                id: item.product_id as string,
+                quantity: item.quantity as number 
+            }));
+            const productsIds: string [] = productsData.map((productsData) => productsData.id);
+            const productsQuery = SELECT.from('sales.Products').where({id: productsIds})
+            const products: Products = await cds.run(productsQuery);
+            for(const productData of productsData){
+                const foundProduct = products.find(product => product.id === productData.id) as Product;
+                foundProduct.stock = (foundProduct.stock as number) - productData.quantity;
+                await cds.update('sales.Products').where({id: foundProduct.id}).with({stock: foundProduct.stock});
+            }
+        }
+        
+    })
 }
