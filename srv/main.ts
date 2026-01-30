@@ -9,9 +9,6 @@ export default (service: Service) => {
             return request.reject(403, 'Não valido');
         }
     });
-    service.before(['WRITE', 'DELETE'], '*', (request: Request) => {
-        return request.reject(403, 'Não é permitido a edição dessa aplicação');
-    });
     service.after('READ', 'Customers', (results: Customers) => {
         results.forEach(customer => {
             if (!customer.email?.includes('@')){
@@ -49,8 +46,13 @@ export default (service: Service) => {
             return request.reject(400, `Produto ${dbProduct.name} sem estoque disponivel`);
         }
         }
-        
-
+        let totalAmount = 0;
+        items.forEach(item =>{
+            totalAmount =+ (item.price as number) * (item.quantity as number);
+        })
+        console.log(params);
+        console.log(totalAmount);
+        request.data.totalAmount = totalAmount;
     });
 
     service.after('CREATE', 'SalesOrderHeaders', async (results: SalesOrderHeaders) => {
