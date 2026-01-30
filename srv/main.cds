@@ -1,15 +1,24 @@
 using sales from '../db/schema';
 
 
-
 service MainService {
 
-    @requires: ['admin']
+    @restrict: [
+        
+        {
+            grant: ['READ', 'WRITE'],
+            to: 'admin'
+        }
+    ]
     entity SalesOrderHeaders as projection on sales.SalesOrderHeaders;
-
-    @requires: ['admin']
-    entity Customers as projection on sales.Customers;
     
-    @requires: ['user']
+    @restrict: [
+    {
+            grant: 'READ',
+            to: 'user'
+        }
+    ]
+    entity Customers as projection on sales.Customers;
+
     entity Products as projection on sales.Products;
 }
