@@ -11,7 +11,7 @@
                 "kind": "basic",
                 "users": {
                     "kelsu": {
-                        "password": "vasco123",
+                        "password": "inicial@12345",
                         "roles": ["admin"],
                         "attr": {
                             "id": 1,
