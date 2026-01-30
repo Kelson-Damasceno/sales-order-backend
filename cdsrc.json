@@ -6,7 +6,28 @@
                     "database": ":memory:"
                 },
                 "kind" : "sqlite"
-            }   
+            },
+            "auth":{
+                "kind": "basic",
+                "users": {
+                    "kelsu": {
+                        "password": "vasco123",
+                        "roles": ["admin"],
+                        "attr": {
+                            "id": 1,
+                            "groups": ["grupo1", "grupo2"]
+                        }
+                    },
+                    "kaka":{
+                        "password": "kaka123",
+                        "roles": ["user"],
+                        "attr": {
+                            "id": 2,
+                            "groups": ["grupo2"]
+                        }
+                    } 
+                }
+            }
         }
     }
 }
