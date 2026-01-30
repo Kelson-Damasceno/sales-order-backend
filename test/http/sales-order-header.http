@@ -34,7 +34,7 @@ Content-Type: application/json
             "header_id": "{{id}}",
             "product_id": "{{productId2}}",
             "quantity": 10,
-            "price": 3.00
+            "price": 5000
         }
     ] 
 }
