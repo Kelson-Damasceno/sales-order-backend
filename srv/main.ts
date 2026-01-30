@@ -1,8 +1,17 @@
 import cds, { Request, Service } from '@sap/cds';
 import { Customers, Product, Products, SalesOrderHeaders, SalesOrderItem, SalesOrderItems } from '@cds-models/sales';
+import { request } from 'axios';
 
 
 export default (service: Service) => {
+    service.before('READ', '*', (request: Request) => {
+        if(!request.user.is('admin')) {
+            return request.reject(403, 'Não valido');
+        }
+    });
+    service.before(['WRITE', 'DELETE'], '*', (request: Request) => {
+        return request.reject(403, 'Não é permitido a edição dessa aplicação');
+    });
     service.after('READ', 'Customers', (results: Customers) => {
         results.forEach(customer => {
             if (!customer.email?.includes('@')){
