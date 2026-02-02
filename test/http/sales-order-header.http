@@ -15,6 +15,7 @@ Content-Type: application/json
 ###
 
 POST http://{{localhost}}/SalesOrderHeaders
+Authorization: Basic kelsu:inicial@12345
 Content-Type: application/json
 
 {
