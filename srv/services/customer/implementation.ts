@@ -12,7 +12,7 @@ export class CustomerServiceImpl implements CustomerService {
                 email: c.email as string
           });
           return customer
-          .setDefaultEmailDomain()  
+          .setDefaultEmailDomain()      
           .toObject()
     });
     
