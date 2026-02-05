@@ -1,20 +1,19 @@
 import cds, { Request, Service } from '@sap/cds';
 import { Customers, Product, Products, SalesOrderHeaders, SalesOrderItem, SalesOrderItems } from '@cds-models/sales';
 import { request } from 'axios';
-import { CustomerServiceImpl } from './services/customer/implementation';
+import { customerController } from './factories/controller/customer';
+import { FullRequestParams } from './protocols';
 
 
 
 
 export default (service: Service) => {
-    service.before(['READ', 'WRITE'], '*', (request: Request) => {
-        if(!request.user.is('user')) {
-            return request.reject(403, 'Não valido');
-        }
-    });
-    service.after('READ', 'Customers', (results: Customers) => {
-        const service = new CustomerServiceImpl();
-        service.afterRead(results); 
+    
+    service.after('READ', 'Customers', (customerList: Customers, request) => {
+        console.log(request);
+
+        (request as unknown as FullRequestParams<Customers>).results = customerController.afterRead(customerList);
+
         // results.forEach(customer => {
         //     if (!customer.email?.includes('@')){
         //         customer.email = `${customer.email}@gmail.com`; 
