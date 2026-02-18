@@ -1,11 +1,18 @@
+import { SalesOrderItemModel } from "./sales-order-items";
+
+
 type SalesOrderHeaderProps = {
     id: string;
     customerId: string;
+    totalAmount: number;
+    items: SalesOrderItemModel[];
 }
+
+type SalesOrderHeaderPropsWithoutTotalAmount = Omit<SalesOrderHeaderProps, 'id' | 'totalAmount'>;
 
 type CreationPayload = {
     customer_id: SalesOrderHeaderProps['customerId'];
-    items: any[];
+
 }
 
 type CreationPayloadValidationResult = {
@@ -16,6 +23,14 @@ type CreationPayloadValidationResult = {
 export class SalesOrderHeaderModel {
     constructor(private props: SalesOrderHeaderProps) { }
 
+    public static create(props: SalesOrderHeaderPropsWithoutTotalAmount): SalesOrderHeaderModel {
+        return new SalesOrderHeaderModel({
+            ...props,
+            id: crypto.randomUUID(),
+            totalAmount: 0
+        })
+    }
+
     public get id() {
         return this.props.id;
     }
@@ -24,28 +39,92 @@ export class SalesOrderHeaderModel {
         return this.props.customerId;
     }
 
-    public validateCreationPayLoad(params: CreationPayload): CreationPayloadValidationResult {
+    public get totalAmount() {
+        return this.props.totalAmount;
+    }
 
-        if (!params.customer_id) {
+    public get items() {
+        return this.props.items;
+    }
+
+    public set totalAmount(amount: number) {
+        this.totalAmount = amount;
+    }
+
+    public validateCreationPayLoad(params: CreationPayload): CreationPayloadValidationResult {
+        const customerValidationResult = this.validationCustomerOnCreation(params.customer_id)
+        if (customerValidationResult.hasError) {
+            return customerValidationResult;
+        }
+
+        const itemsValidationResult = this.validateItemsOnCreation(this.items)
+        if (itemsValidationResult.hasError) {
+            return itemsValidationResult;
+        }
+        return {
+            hasError: false
+        }
+    }
+
+    private validationCustomerOnCreation(customerId: CreationPayload['customer_id']): CreationPayloadValidationResult {
+        if (!customerId) {
             return {
                 hasError: true,
                 error: new Error('Customer inválido')
             };
         }
+        return {
+            hasError: false
+        }
 
-        if (!params.items || params.items?.length === 0) {
+    }
+
+    private validateItemsOnCreation(items: SalesOrderHeaderProps['items']): CreationPayloadValidationResult {
+        if (!items || this.items?.length === 0) {
             return {
                 hasError: true,
                 error: new Error('Itens inválido')
             };
-           
+
         }
-            return {
-                hasError: false
+        const itemsErrors: string[] = [];
+        items.forEach(item => {
+            const validationResult = item.validateCreationPayload({ product_id: item.productId });
+            if (validationResult.hasError) {
+                itemsErrors.push(validationResult.error?.message as string);
             }
+        });
+
+        if (itemsErrors.length > 0) {
+            const messages = itemsErrors.join('\n -');
+            return {
+                hasError: true,
+                error: new Error(messages)
+            }
+        }
+        return {
+            hasError: false
         }
     }
 
-    
+    public calculateTotalAmount(): number {
+        let totalAmount = 0;
+        this.items.forEach(item => {
+            totalAmount += (item.price as unknown as number) * (item.quantity as unknown as number);
+        });
+        return totalAmount;
+    }
+
+    public calculateDiscount(): number {
+        let totalAmount = this.calculateTotalAmount(); 
+        if (this.totalAmount > 30000) {
+            const discount = this.totalAmount * (10 / 100)
+            totalAmount = this.totalAmount - discount;
+        }
+        return totalAmount;
+    }
+}
+
+
 
 
