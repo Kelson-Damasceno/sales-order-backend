@@ -17,15 +17,15 @@ export class LoggedUserModel {
     }
 
     public get id(){
-        return this.props.id
+        return this.props.id;
     }
     
     public get roles(){
-        return this.props.roles
+        return this.props.roles;
     }
     
     public get attributes(){
-        return this.props.attributes
+        return this.props.attributes;
     }
 
     public toStringifiedObject(): string{

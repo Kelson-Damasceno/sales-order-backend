@@ -1,5 +1,5 @@
-import { json } from "node:stream/consumers";
-import { SalesOrderItemModel } from "./sales-order-items";
+import { json } from 'node:stream/consumers';
+import { SalesOrderItemModel } from './sales-order-items';
 
 
 type SalesOrderHeaderProps = {
@@ -29,12 +29,12 @@ export class SalesOrderHeaderModel {
             ...props,
             id: crypto.randomUUID(),
             totalAmount: 0,
-        })
+        });
     }
 
     public static with(props: SalesOrderHeaderProps): SalesOrderHeaderModel {
-            return new SalesOrderHeaderModel(props);
-        }
+        return new SalesOrderHeaderModel(props);
+    }
 
     public get id() {
         return this.props.id;
@@ -57,18 +57,18 @@ export class SalesOrderHeaderModel {
     }
 
     public validateCreationPayLoad(params: CreationPayload): CreationPayloadValidationResult {
-        const customerValidationResult = this.validationCustomerOnCreation(params.customer_id)
+        const customerValidationResult = this.validationCustomerOnCreation(params.customer_id);
         if (customerValidationResult.hasError) {
             return customerValidationResult;
         }
 
-        const itemsValidationResult = this.validateItemsOnCreation(this.items)
+        const itemsValidationResult = this.validateItemsOnCreation(this.items);
         if (itemsValidationResult.hasError) {
             return itemsValidationResult;
         }
         return {
             hasError: false
-        }
+        };
     }
 
     private validationCustomerOnCreation(customerId: CreationPayload['customer_id']): CreationPayloadValidationResult {
@@ -80,7 +80,7 @@ export class SalesOrderHeaderModel {
         }
         return {
             hasError: false
-        }
+        };
 
     }
 
@@ -105,11 +105,11 @@ export class SalesOrderHeaderModel {
             return {
                 hasError: true,
                 error: new Error(messages)
-            }
+            };
         }
         return {
             hasError: false
-        }
+        };
     }
 
     public calculateTotalAmount(): number {
@@ -123,7 +123,7 @@ export class SalesOrderHeaderModel {
     public calculateDiscount(): number {
         let totalAmount = this.calculateTotalAmount(); 
         if (this.totalAmount > 30000) {
-            const discount = this.totalAmount * (10 / 100)
+            const discount = this.totalAmount * (10 / 100);
             totalAmount = this.totalAmount - discount;
         }
         return totalAmount;

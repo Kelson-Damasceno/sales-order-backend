@@ -1,6 +1,6 @@
-import { User } from "@sap/cds";
+import { User } from '@sap/cds';
 
-import { SalesOrderHeader, SalesOrderHeaders } from "@cds-models/sales";
+import { SalesOrderHeader, SalesOrderHeaders } from '@cds-models/sales';
 
 
 export type CreationPayloadValidationResult = {

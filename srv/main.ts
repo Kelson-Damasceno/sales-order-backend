@@ -69,7 +69,7 @@ export default (service: Service) => {
     });
 
     service.after('CREATE', 'SalesOrderHeaders', async (salesOrderHeaders: SalesOrderHeaders, request: Request) => {
-       await salesOrderHeaderController.afterCreate(salesOrderHeaders[0], request.user);
+        await salesOrderHeaderController.afterCreate(salesOrderHeaders[0], request.user);
        
-    })
-}
+    });
+};

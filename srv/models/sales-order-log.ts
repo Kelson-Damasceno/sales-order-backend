@@ -4,7 +4,7 @@
 //       userData: LargeString;
 //       orderData: LargeString;
 
-import { SalesOrderLog } from "@cds-models/sales";
+import { SalesOrderLog } from '@cds-models/sales';
 
       
 // }
@@ -29,7 +29,7 @@ export class SalesOrderLogModel {
         return new SalesOrderLogModel({
             ...props,
             id: crypto.randomUUID()
-        })
+        });
     }
 
     public get id(){
@@ -49,12 +49,12 @@ export class SalesOrderLogModel {
     }
     
     public toObject() : SalesOrderLogDbProps {
-            return {
-                id: this.props.id,
-                header_id: this.props.headerId,
-                userData: this.props.userData,
-                orderData: this.props.orderData
-            }
-        }
+        return {
+            id: this.props.id,
+            header_id: this.props.headerId,
+            userData: this.props.userData,
+            orderData: this.props.orderData
+        };
+    }
 
 }

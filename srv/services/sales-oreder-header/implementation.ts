@@ -1,16 +1,16 @@
-import { User } from "@sap/cds";
+import { User } from '@sap/cds';
 
-import { SalesOrderHeader, SalesOrderHeaders, SalesOrderItem } from "@cds-models/sales";
-import { SalesOrderHeaderService, CreationPayloadValidationResult } from "./protocols";
-import { SalesOrderHeaderModel } from "../../models/sales-order-header";
-import { SalesOrderItemModel } from "../../models/sales-order-items";
-import { ProductRepository } from "../../repositories/product/protocols.";
-import { CustomerRepository } from "srv/repositories/customer/protocols";
-import { ProductModel } from "srv/models/product";
-import { CustomerModel } from "srv/models/customer";
-import { SalesOrderLogModel } from "srv/models/sales-order-log";
-import { SalesOrderLogRepository } from "srv/repositories/product/sales-order-log/protocols";
-import { LoggedUserModel } from "srv/models/logged-user";
+import { SalesOrderHeader, SalesOrderHeaders, SalesOrderItem } from '@cds-models/sales';
+import { CreationPayloadValidationResult, SalesOrderHeaderService } from './protocols';
+import { SalesOrderHeaderModel } from '../../models/sales-order-header';
+import { SalesOrderItemModel } from '../../models/sales-order-items';
+import { ProductRepository } from '../../repositories/product/protocols.';
+import { CustomerRepository } from 'srv/repositories/customer/protocols';
+import { ProductModel } from 'srv/models/product';
+import { CustomerModel } from 'srv/models/customer';
+import { SalesOrderLogModel } from 'srv/models/sales-order-log';
+import { SalesOrderLogRepository } from 'srv/repositories/product/sales-order-log/protocols';
+import { LoggedUserModel } from 'srv/models/logged-user';
 
 
 
@@ -39,7 +39,7 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
                 error: new Error('Customer não encontrado.')
             };
         }
-        const headerValidationResult = header.validateCreationPayLoad({ customer_id: customer.id })
+        const headerValidationResult = header.validateCreationPayLoad({ customer_id: customer.id });
         if (headerValidationResult.hasError) {
             return headerValidationResult;
         };
@@ -48,7 +48,7 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
         return {
             hasError: false,
             totalAmount: header.calculateDiscount()
-        }
+        };
     }
 
     public async afterCreate(params: SalesOrderHeader, loggedUser: User): Promise<void> {
@@ -104,7 +104,7 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
     }
 
     private getCustomerById(params: SalesOrderHeader): Promise<CustomerModel | null> {
-        const customerId = params.customer_id as string 
+        const customerId = params.customer_id as string; 
         return this.customerRepository.findById(customerId);
     }
 
@@ -116,7 +116,7 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
                 id: loggedUser.attr.id as unknown as number,
                 groups: loggedUser.attr.id as unknown as string[]
             }
-        })
+        });
     }
 
     private getSalesOrderLog(salesOrderHeader: SalesOrderHeaderModel, user: LoggedUserModel): SalesOrderLogModel {

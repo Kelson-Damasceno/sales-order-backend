@@ -36,9 +36,9 @@ export class CustomerModel {
 
     public setDefaultEmailDomain(): CustomerModel{
         if (!this.props.email.includes('@')){
-                this.props.email = `${this.props.email}@gmail.com`; 
-            }
-            return this;
+            this.props.email = `${this.props.email}@gmail.com`; 
+        }
+        return this;
     }
 
     public toObject() : CustomerProps {
@@ -47,6 +47,6 @@ export class CustomerModel {
             firstName: this.props.firstName,
             lastName: this.props.lastName,
             email: this.props.email,
-        }
+        };
     }
 }
