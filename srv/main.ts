@@ -5,11 +5,7 @@ import { customerController } from './factories/controller/customer';
 import { salesOrderHeaderController } from './factories/controller/sales-order-header';
 import { FullRequestParams } from './protocols';
 
-
-
-
 export default (service: Service) => {
-    
     service.after('READ', 'Customers', (customerList: Customers, request) => {
         console.log(request);
 
@@ -17,14 +13,14 @@ export default (service: Service) => {
 
         // results.forEach(customer => {
         //     if (!customer.email?.includes('@')){
-        //         customer.email = `${customer.email}@gmail.com`; 
+        //         customer.email = `${customer.email}@gmail.com`;
         //     }
         // })
     });
     service.before('CREATE', 'SalesOrderHeaders', async (request: Request) => {
         const params = request.data;
         const result = await salesOrderHeaderController.beforeCreate(params);
-        if(result.hasError){
+        if (result.hasError) {
             return request.reject(400, result.error?.message as string);
         }
         // const items: SalesOrderItem [] = params.items;
@@ -70,6 +66,5 @@ export default (service: Service) => {
 
     service.after('CREATE', 'SalesOrderHeaders', async (salesOrderHeaders: SalesOrderHeaders, request: Request) => {
         await salesOrderHeaderController.afterCreate(salesOrderHeaders[0], request.user);
-       
     });
 };

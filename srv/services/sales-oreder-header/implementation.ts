@@ -4,23 +4,20 @@ import { SalesOrderHeader, SalesOrderHeaders, SalesOrderItem } from '@cds-models
 import { CreationPayloadValidationResult, SalesOrderHeaderService } from './protocols';
 import { SalesOrderHeaderModel } from '../../models/sales-order-header';
 import { SalesOrderItemModel } from '../../models/sales-order-items';
-import { ProductRepository } from '../../repositories/product/protocols.';
+import { ProductRepository } from '../../repositories/protocols.';
 import { CustomerRepository } from 'srv/repositories/customer/protocols';
 import { ProductModel } from 'srv/models/product';
 import { CustomerModel } from 'srv/models/customer';
 import { SalesOrderLogModel } from 'srv/models/sales-order-log';
-import { SalesOrderLogRepository } from 'srv/repositories/product/sales-order-log/protocols';
+import { SalesOrderLogRepository } from 'srv/repositories/sales-order-log/protocols';
 import { LoggedUserModel } from 'srv/models/logged-user';
-
-
-
 
 export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
     constructor(
         private readonly customerRepository: CustomerRepository,
         private readonly productRepository: ProductRepository,
         private readonly salesOrderLogRepository: SalesOrderLogRepository
-    ) { }
+    ) {}
 
     public async beforeCreate(params: SalesOrderHeader): Promise<CreationPayloadValidationResult> {
         const products = await this.getProductsByIds(params);
@@ -42,8 +39,7 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
         const headerValidationResult = header.validateCreationPayLoad({ customer_id: customer.id });
         if (headerValidationResult.hasError) {
             return headerValidationResult;
-        };
-
+        }
 
         return {
             hasError: false,
@@ -52,22 +48,22 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
     }
 
     public async afterCreate(params: SalesOrderHeader, loggedUser: User): Promise<void> {
-        const headersAsArray = Array.isArray(params) ? params : [params] as SalesOrderHeaders;
+        const headersAsArray = Array.isArray(params) ? params : ([params] as SalesOrderHeaders);
         const logs: SalesOrderLogModel[] = [];
         for (const header of headersAsArray) {
-            const products = await this.getProductsByIds(header) as ProductModel[];
+            const products = (await this.getProductsByIds(header)) as ProductModel[];
             const items = this.getSalesOrderItems(header, products);
             const salesOrderHeader = this.getExistingSalesOrderHeader(header, items);
             const productsData = salesOrderHeader.getProductsData();
             for (const product of products) {
-                const foundProduct = productsData.find(productData => productData.id === product.id);
+                const foundProduct = productsData.find((productData) => productData.id === product.id);
                 product.sell(foundProduct?.quantity as number);
                 await this.productRepository.updateStock(product);
             }
             const user = this.getLoggedUser(loggedUser);
             const log = this.getSalesOrderLog(salesOrderHeader, user);
             logs.push(log);
-            //        
+            //
         }
         await this.salesOrderLogRepository.create(logs);
     }
@@ -78,13 +74,14 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
     }
 
     private getSalesOrderItems(params: SalesOrderHeader, products: ProductModel[]): SalesOrderItemModel[] {
-        return params.items?.map(item => SalesOrderItemModel.create({
-            price: item.price as number,
-            productId: item.product_id as string,
-            quantity: item.quantity as number,
-            products
-
-        })) as SalesOrderItemModel[];
+        return params.items?.map((item) =>
+            SalesOrderItemModel.create({
+                price: item.price as number,
+                productId: item.product_id as string,
+                quantity: item.quantity as number,
+                products
+            })
+        ) as SalesOrderItemModel[];
     }
 
     private getSalesOrderHeader(params: SalesOrderHeader, items: SalesOrderItemModel[]): SalesOrderHeaderModel {
@@ -94,7 +91,7 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
         });
     }
 
-    private getExistingSalesOrderHeader(params: SalesOrderHeader, items: SalesOrderItemModel[]) : SalesOrderHeaderModel {
+    private getExistingSalesOrderHeader(params: SalesOrderHeader, items: SalesOrderItemModel[]): SalesOrderHeaderModel {
         return SalesOrderHeaderModel.with({
             id: params.id as string,
             customerId: params.customer_id as string,
@@ -104,17 +101,17 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
     }
 
     private getCustomerById(params: SalesOrderHeader): Promise<CustomerModel | null> {
-        const customerId = params.customer_id as string; 
+        const customerId = params.customer_id as string;
         return this.customerRepository.findById(customerId);
     }
 
     private getLoggedUser(loggedUser: User): LoggedUserModel {
         return LoggedUserModel.create({
-            id: loggedUser.id,
+            id: loggedUser.id || '',
             roles: loggedUser.roles as string[],
             attributes: {
-                id: loggedUser.attr.id as unknown as number,
-                groups: loggedUser.attr.id as unknown as string[]
+                id: loggedUser.attr?.id as unknown as number,
+                groups: loggedUser.attr?.id as unknown as string[]
             }
         });
     }
@@ -126,6 +123,4 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
             userData: user.toStringifiedObject()
         });
     }
-
 }
-

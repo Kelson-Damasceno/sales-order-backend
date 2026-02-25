@@ -13,25 +13,25 @@ type SalesOrderItemProps = {
     id: string;
     productId: string;
     quantity: number;
-    price: number
+    price: number;
     products: ProductModel[];
-}
+};
 
-type SalesOrderItemPropsWithoutId = Omit<SalesOrderItemProps, 'id'>; 
+type SalesOrderItemPropsWithoutId = Omit<SalesOrderItemProps, 'id'>;
 
 type CreationPayload = {
     product_id: SalesOrderItemProps['productId'];
-}
+};
 
 type CreationPayloadValidationResult = {
     hasError: boolean;
     error?: Error;
-}
+};
 
 export class SalesOrderItemModel {
-    constructor(private props: SalesOrderItemProps) { }
+    constructor(private props: SalesOrderItemProps) {}
 
-    public static create(props: SalesOrderItemPropsWithoutId): SalesOrderItemModel{
+    public static create(props: SalesOrderItemPropsWithoutId): SalesOrderItemModel {
         return new SalesOrderItemModel({
             ...props,
             id: crypto.randomUUID()
@@ -58,7 +58,7 @@ export class SalesOrderItemModel {
     }
 
     public validateCreationPayload(params: CreationPayload): CreationPayloadValidationResult {
-        const product = this.products.find(product => product.id === params.product_id);
+        const product = this.products.find((product) => product.id === params.product_id);
         if (!product) {
             return {
                 hasError: true,
@@ -75,7 +75,5 @@ export class SalesOrderItemModel {
         return {
             hasError: false
         };
-
-
     }
 }

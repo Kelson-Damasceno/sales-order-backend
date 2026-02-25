@@ -6,7 +6,6 @@
 
 import { SalesOrderLog } from '@cds-models/sales';
 
-      
 // }
 
 type SalesOrderLogProps = {
@@ -14,41 +13,41 @@ type SalesOrderLogProps = {
     headerId: string;
     userData: string;
     orderData: string;
-}
+};
 
 type salesOrderLogWithoutIdProps = Omit<SalesOrderLogProps, 'id'>;
 
 type SalesOrderLogDbProps = Omit<SalesOrderLogProps, 'headerId'> & {
     header_id: string;
-} 
+};
 
 export class SalesOrderLogModel {
-    constructor(private props: SalesOrderLogProps){}
+    constructor(private props: SalesOrderLogProps) {}
 
-    public static create(props: salesOrderLogWithoutIdProps): SalesOrderLogModel{
+    public static create(props: salesOrderLogWithoutIdProps): SalesOrderLogModel {
         return new SalesOrderLogModel({
             ...props,
             id: crypto.randomUUID()
         });
     }
 
-    public get id(){
+    public get id() {
         return this.props.id;
     }
-    
-    public get headerId(){
+
+    public get headerId() {
         return this.props.headerId;
     }
-    
-    public get userData(){
+
+    public get userData() {
         return this.props.userData;
     }
-    
-    public get orderData(){
+
+    public get orderData() {
         return this.props.orderData;
     }
-    
-    public toObject() : SalesOrderLogDbProps {
+
+    public toObject(): SalesOrderLogDbProps {
         return {
             id: this.props.id,
             header_id: this.props.headerId,
@@ -56,5 +55,4 @@ export class SalesOrderLogModel {
             orderData: this.props.orderData
         };
     }
-
 }

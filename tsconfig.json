@@ -10,7 +10,17 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "rootDir": "./",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["srv"],
-  "exclude": ["node_modules"]
+
+  "include": [
+    "srv",
+    "src",
+    "types"
+  
+  ],
+
+  "exclude": ["node_modules"],
+
 }
