@@ -30,5 +30,10 @@
     "dev": "cds-tsx watch",
     "lint": "eslint ./srv"
   },
+
+  "_moduleAliases": {
+    "srv": "dist/srv"
+  },
+
   "private": true
 }

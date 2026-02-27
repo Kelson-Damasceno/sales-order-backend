@@ -1,4 +1,4 @@
-import './configs/module-alias';
+import '../configs/module-alias';
 
 import { Request, Service } from '@sap/cds';
 
@@ -6,7 +6,7 @@ import { Customers, SalesOrderHeaders } from '@models/sales';
 
 import { customerController } from '@/factories/controller/customer';
 import { salesOrderHeaderController } from '@/factories/controller/sales-order-header';
-import { FullRequestParams } from '@/protocols';
+import { FullRequestParams } from '@/routes/protocols';
 
 export default (service: Service) => {
     service.after('READ', 'Customers', (customerList: Customers, request) => {
