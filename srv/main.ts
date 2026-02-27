@@ -1,9 +1,12 @@
-import cds, { Request, Service } from '@sap/cds';
-import { Customers, Product, Products, SalesOrderHeaders, SalesOrderItem, SalesOrderItems } from '@cds-models/sales';
-import { request } from 'axios';
-import { customerController } from './factories/controller/customer';
-import { salesOrderHeaderController } from './factories/controller/sales-order-header';
-import { FullRequestParams } from './protocols';
+import './configs/module-alias';
+
+import { Request, Service } from '@sap/cds';
+
+import { Customers, SalesOrderHeaders } from '@models/sales';
+
+import { customerController } from '@/factories/controller/customer';
+import { salesOrderHeaderController } from '@/factories/controller/sales-order-header';
+import { FullRequestParams } from '@/protocols';
 
 export default (service: Service) => {
     service.after('READ', 'Customers', (customerList: Customers, request) => {

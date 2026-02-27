@@ -12,4 +12,3 @@ export interface SalesOrderHeaderController {
     beforeCreate(params: SalesOrderHeader): Promise<CreationPayloadValidationResult>;
     afterCreate(params: SalesOrderHeader, loggedUser: User): Promise<void>;
 }
-    

@@ -1,13 +1,3 @@
-// entity SalesOrderLogs: managed {
-//    key id: UUID;
-//       header: Association to SalesOrderHeaders;
-//       userData: LargeString;
-//       orderData: LargeString;
-
-import { SalesOrderLog } from '@cds-models/sales';
-
-// }
-
 type SalesOrderLogProps = {
     id: string;
     headerId: string;

@@ -4,7 +4,8 @@
   "description": "A simple CAP project.",
   "dependencies": {
     "@sap/cds": "^9",
-    "express": "^4"
+    "express": "^4",
+    "module-alias": "^2.3.4"
   },
   "devDependencies": {
     "@cap-js/cds-typer": "^0.38.0",
@@ -13,6 +14,7 @@
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^1.0.1",
     "@types/axios": "^0.14.4",
+    "@types/module-alias": "^2.0.4",
     "@types/node": "^25.0.10",
     "eslint": "^10.0.1",
     "eslint-plugin-prettier": "^5.5.5",

@@ -1,13 +1,5 @@
-// entity SalesOrderItems {
-//    key id: UUID;
-//       header: Association to SalesOrderHeaders;
-//       product: Association to Products;
-//       quantity: Integer;
-//       price: Decimal(15,2);
+import { ProductModel } from '@/models/product'; ;
 
-import { ProductModel } from './product';
-
-// }
 
 type SalesOrderItemProps = {
     id: string;

@@ -1,5 +1,4 @@
-import { json } from 'node:stream/consumers';
-import { SalesOrderItemModel } from './sales-order-items';
+import { SalesOrderItemModel } from '@/models/sales-order-items';   
 
 type SalesOrderHeaderProps = {
     id: string;
