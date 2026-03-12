@@ -41,4 +41,31 @@ export class SalesReportRepositoryImpl implements SalesReportRepository {
     
     }
 
+    public async findByCustomerId(customerId: string): Promise<SalesReportModel[] | null> {
+         const sql = cds.SELECT.from('sales.SalesOrderHeaders')
+        .columns(
+            'id as salesOrderId', 
+            'totalAmount as salesOrderTotalAmount', 
+            'customer.id as customerId',
+            //eslint-disable-next-line quotes
+            `Customer.firstName || ' ' || customer.lastName as customer.FullName`
+            
+         )
+        .where({ customer_id: customerId });
+        
+        const salesReports = await cds.run(sql);
+        if (salesReports.length === 0) {
+                    return null;
+                }
+                return salesReports.map((salesReport: SalesReportByDays) =>
+                  SalesReportModel.with({
+                        salesOrderId: salesReport.SalesOrderId as string,
+                        salesOrderTotalAmount: salesReport.SalesOrderTotalAmount as number,
+                        customerId: salesReport.customerId as string,
+                        customerFullName: salesReport.customerFullName as string  
+                    })
+                );
+
+    };
+        
 }
