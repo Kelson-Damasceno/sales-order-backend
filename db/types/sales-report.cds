@@ -2,7 +2,7 @@
 
 using { sales } from '../schema';
 
-namespace db.types.SalesReport;  // <── Nome completo!
+namespace db.types.SalesReport;  
 
 type ExpectedResult {
     SalesOrderId          : sales.SalesOrderHeaders:id;           // <── Um só :
