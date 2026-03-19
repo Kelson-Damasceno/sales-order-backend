@@ -1,5 +1,6 @@
 import { User } from '@sap/cds';
 
+import { Payload as BulkCreateSalesOrderPayload } from '@models/db/types/BulkCreateSalesOrder';
 import { SalesOrderHeader, SalesOrderHeaders } from '@cds-models/sales';
 
 export type CreationPayloadValidationResult = {
@@ -11,4 +12,6 @@ export type CreationPayloadValidationResult = {
 export interface SalesOrderHeaderController {
     beforeCreate(params: SalesOrderHeader): Promise<CreationPayloadValidationResult>;
     afterCreate(params: SalesOrderHeader, loggedUser: User): Promise<void>;
+    bulkCreate(headers: BulkCreateSalesOrderPayload[], loggedUser: User): Promise<CreationPayloadValidationResult>;
+    
 }
