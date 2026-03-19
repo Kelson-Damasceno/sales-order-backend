@@ -1,5 +1,5 @@
 using sales from '../../db/schema';
-using { db.types.SalesReport } from '../../db/types/sales-report';
+using { db.types.SalesReport, db.types.BulkCreateSalesOrder } from '../../db/types';
 
 
 // @requires: 'authenticated-user'
@@ -12,8 +12,7 @@ service MainService {
         function getSalesReportByCustomerId() returns array of SalesReport.ExpectedResult; 
     };
     entity Products as projection on sales.Products;
-    entity SalesOrderLogs as projection on sales.SalesOrderLogs;
-    
+    entity SalesOrderLogs as projection on sales.SalesOrderLogs;    
 
 }
 
@@ -21,4 +20,8 @@ service MainService {
 extend service MainService with {
      function getSalesReport(days: Integer) returns array of SalesReport.ExpectedResult;
 
+}
+
+extend service MainService with {
+    action bulkCreateSalesOrder( payload: array of BulkCreateSalesOrder.Payload) returns BulkCreateSalesOrder.ExpectedResult;
 }
