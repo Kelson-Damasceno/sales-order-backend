@@ -3,12 +3,19 @@ import { ProductRepositoryImpl } from '@/repositories/product/implementation';
 import { SalesOrderHeaderServiceImpl } from '@/services/sales-oreder-header/implementation';
 import { SalesOrderHeaderService } from '@/services/sales-oreder-header/protocols';
 import { SalesOrderLogRepositoryImpl } from '@/repositories/sales-order-log/implementation';
+import { SalesOrderHeaderRepositoryImpl } from '@/repositories/sales-order-header/implementation';
 
 const makeSalesOrderHeaderService = (): SalesOrderHeaderService => {
+    const salesOrderHeaderReporitory = new SalesOrderHeaderRepositoryImpl   
     const customerRepository = new CustomerRepositoryImpl();
     const productRepository = new ProductRepositoryImpl();
     const salesOrderLogRepository = new SalesOrderLogRepositoryImpl();
-    return new SalesOrderHeaderServiceImpl(customerRepository, productRepository, salesOrderLogRepository);
+    return new SalesOrderHeaderServiceImpl(
+        salesOrderHeaderReporitory, 
+        customerRepository, 
+        productRepository, 
+        salesOrderLogRepository
+    );
 };
 
 export const salesOrderHeaderService = makeSalesOrderHeaderService();
