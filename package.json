@@ -13,6 +13,7 @@
     "@cap-js/sqlite": "^2",
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^1.0.1",
+    "@sap/cds-dk": "^9.8.1",
     "@types/axios": "^0.14.4",
     "@types/module-alias": "^2.0.4",
     "@types/node": "^25.0.10",
@@ -30,10 +31,8 @@
     "dev": "cds-tsx watch",
     "lint": "eslint ./srv"
   },
-
   "_moduleAliases": {
     "srv": "dist/srv"
   },
-
   "private": true
 }
