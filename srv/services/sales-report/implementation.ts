@@ -1,4 +1,4 @@
-import { ExpectedResult as SalesReportByDays } from "@/@cds-models/db/types/SalesReportByDays";
+import { ExpectedResult as SalesReportByDays } from "@cds-models/db/types/SalesReport";
 
 import { SalesReportRepository } from "@/repositories/sales-report/protocols";
 import { SalesReportService } from "@/services/sales-report/protocols";
