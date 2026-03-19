@@ -82,4 +82,19 @@ export default (service: Service) => {
 
         return salesReportController.findByCustomerId(customerId);
     });
+    
+    service.on('teste', (request: Request) =>{
+        console.log(`Params: ${JSON.stringify(request.params)}`);
+        console.log(`Data: ${JSON.stringify(request.data)}`);
+    });
+    
+    service.on('teste2', (request: Request) =>{
+        console.log(`Params: ${JSON.stringify(request.params)}`);
+        console.log(`Data: ${JSON.stringify(request.data)}`);
+    })
+
+    service.on('bulkCreateSalesOrder', async(request: Request) => {
+        const {user, data} = request;
+        return salesOrderHeaderController.bulkCreate(data.payload, user);
+    })
 };
