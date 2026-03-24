@@ -5,13 +5,13 @@ import { CustomerModel } from '@/models/customer';
 import { ProductModel } from '@/models/product';
 import { SalesOrderHeader } from '@models/sales';
 
-
 export type CreationPayloadValidationResult = {
     hasError: boolean;
     totalAmount?: number;
     products?: ProductModel[];
     customer?: CustomerModel[];
     error?: Error;
+    headers?: BulkCreateSalesOrderPayload[]
 };
 
 export interface SalesOrderHeaderService {

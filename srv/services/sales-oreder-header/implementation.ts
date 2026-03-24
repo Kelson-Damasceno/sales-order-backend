@@ -97,10 +97,15 @@ export class SalesOrderHeaderServiceImpl implements SalesOrderHeaderService {
 
         await this.salesOrderHeaderRepository.bulkCreate(bulkCreateHeaders);
         await this.afterCreate(headers, loggedUser);
-        return {
-            hasError: false
-        };
+        return this.serializeBulkCreateResult(bulkCreateHeaders);
 
+    }
+
+    private serializeBulkCreateResult(headers: SalesOrderHeaderModel[]): CreationPayloadValidationResult {
+        return {
+            hasError: false,
+            headers: headers.map(header => header.toCreationObject())
+        }
     }
 
     private async validateProductsOnCreation(

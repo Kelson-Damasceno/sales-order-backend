@@ -11,6 +11,10 @@ type SalesOrderItemProps = {
 
 type SalesOrderItemPropsWithoutId = Omit<SalesOrderItemProps, 'id'>;
 
+export type SalesOrderItemPropsWithSnakeCaseProductId = Omit<SalesOrderItemProps, 'productId' | 'products'> & {
+    product_id: SalesOrderItemProps['productId'];
+};
+
 type CreationPayload = {
     product_id: SalesOrderItemProps['productId'];
 };
@@ -66,6 +70,15 @@ export class SalesOrderItemModel {
         }
         return {
             hasError: false
+        };
+    }
+
+    public toCreationObject(): SalesOrderItemPropsWithSnakeCaseProductId{
+        return {
+            id: this.props.id,
+            price: this.props.price,
+            quantity: this.props.quantity,
+            product_id: this.props.productId
         };
     }
 }
